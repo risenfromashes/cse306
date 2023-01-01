@@ -173,51 +173,51 @@
     <wire from="(470,460)" to="(590,460)"/>
     <wire from="(590,210)" to="(760,210)"/>
     <wire from="(590,210)" to="(590,460)"/>
-    <comp lib="0" loc="(190,310)" name="Pin">
+    <comp lib="0" loc="(190,380)" name="Pin">
       <a name="width" val="12"/>
       <a name="tristate" val="false"/>
-      <a name="label" val="A"/>
+      <a name="label" val="B"/>
+    </comp>
+    <comp lib="0" loc="(120,230)" name="Pin">
+      <a name="tristate" val="false"/>
+      <a name="label" val="SB"/>
     </comp>
     <comp lib="0" loc="(760,210)" name="Pin">
       <a name="facing" val="west"/>
       <a name="output" val="true"/>
       <a name="label" val="A&gt;B"/>
     </comp>
-    <comp lib="8" loc="(350,320)" name="12BitMagnitudeComparator"/>
-    <comp lib="0" loc="(710,330)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="12"/>
-      <a name="label" val="A~B"/>
-    </comp>
-    <comp lib="0" loc="(190,380)" name="Pin">
-      <a name="width" val="12"/>
-      <a name="tristate" val="false"/>
-      <a name="label" val="B"/>
-    </comp>
     <comp lib="0" loc="(760,150)" name="Pin">
       <a name="facing" val="west"/>
       <a name="output" val="true"/>
       <a name="label" val="Switch"/>
     </comp>
+    <comp lib="10" loc="(690,330)" name="12Sub"/>
     <comp lib="0" loc="(120,180)" name="Pin">
       <a name="tristate" val="false"/>
       <a name="label" val="SA"/>
     </comp>
-    <comp lib="7" loc="(480,400)" name="12Mux2X1"/>
-    <comp lib="10" loc="(690,330)" name="12Sub"/>
-    <comp lib="0" loc="(460,620)" name="Ground"/>
-    <comp lib="0" loc="(120,230)" name="Pin">
-      <a name="tristate" val="false"/>
-      <a name="label" val="SB"/>
-    </comp>
+    <comp lib="8" loc="(350,320)" name="12BitMagnitudeComparator"/>
     <comp lib="0" loc="(710,550)" name="Pin">
       <a name="facing" val="west"/>
       <a name="output" val="true"/>
       <a name="width" val="12"/>
       <a name="label" val="Exp_Large"/>
     </comp>
+    <comp lib="0" loc="(460,620)" name="Ground"/>
+    <comp lib="0" loc="(710,330)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="12"/>
+      <a name="label" val="A~B"/>
+    </comp>
+    <comp lib="7" loc="(480,400)" name="12Mux2X1"/>
     <comp lib="7" loc="(480,280)" name="12Mux2X1"/>
+    <comp lib="0" loc="(190,310)" name="Pin">
+      <a name="width" val="12"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="A"/>
+    </comp>
   </circuit>
   <circuit name="InputHandle">
     <a name="circuit" val="InputHandle"/>
@@ -247,21 +247,17 @@
     <wire from="(630,160)" to="(630,310)"/>
     <wire from="(530,330)" to="(530,370)"/>
     <wire from="(650,380)" to="(670,380)"/>
-    <wire from="(150,190)" to="(300,190)"/>
-    <wire from="(150,280)" to="(300,280)"/>
     <wire from="(640,280)" to="(670,280)"/>
     <wire from="(630,160)" to="(660,160)"/>
     <wire from="(170,330)" to="(170,440)"/>
     <wire from="(390,370)" to="(390,540)"/>
     <wire from="(370,460)" to="(650,460)"/>
     <wire from="(540,310)" to="(630,310)"/>
-    <wire from="(330,190)" to="(470,190)"/>
     <wire from="(390,370)" to="(530,370)"/>
     <wire from="(390,540)" to="(530,540)"/>
     <wire from="(470,320)" to="(470,500)"/>
     <wire from="(160,440)" to="(170,440)"/>
     <wire from="(210,340)" to="(210,520)"/>
-    <wire from="(330,280)" to="(460,280)"/>
     <wire from="(210,340)" to="(240,340)"/>
     <wire from="(240,340)" to="(240,360)"/>
     <wire from="(240,360)" to="(300,360)"/>
@@ -283,11 +279,71 @@
     <wire from="(330,360)" to="(360,360)"/>
     <wire from="(330,350)" to="(370,350)"/>
     <wire from="(370,350)" to="(370,460)"/>
+    <wire from="(150,190)" to="(470,190)"/>
+    <wire from="(150,300)" to="(160,300)"/>
+    <wire from="(160,280)" to="(460,280)"/>
+    <wire from="(160,280)" to="(160,300)"/>
+    <wire from="(530,540)" to="(570,540)"/>
+    <wire from="(570,540)" to="(570,570)"/>
+    <comp lib="0" loc="(110,120)" name="Pin">
+      <a name="tristate" val="false"/>
+      <a name="label" val="SB"/>
+    </comp>
+    <comp lib="0" loc="(680,80)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="label" val="Switch"/>
+    </comp>
+    <comp lib="0" loc="(150,190)" name="Pin">
+      <a name="width" val="32"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="A_Frac"/>
+    </comp>
+    <comp lib="0" loc="(420,570)" name="Ground"/>
+    <comp lib="0" loc="(110,80)" name="Pin">
+      <a name="tristate" val="false"/>
+      <a name="label" val="SA"/>
+    </comp>
+    <comp lib="0" loc="(160,440)" name="Pin">
+      <a name="width" val="12"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="A_Exp"/>
+    </comp>
+    <comp lib="0" loc="(160,520)" name="Pin">
+      <a name="width" val="12"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="B_Exp"/>
+    </comp>
+    <comp lib="7" loc="(540,500)" name="32Mux2X1"/>
+    <comp lib="0" loc="(660,160)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="32"/>
+      <a name="label" val="Large"/>
+    </comp>
     <comp lib="0" loc="(670,480)" name="Pin">
       <a name="facing" val="west"/>
       <a name="output" val="true"/>
       <a name="width" val="12"/>
       <a name="label" val="Exp_Large"/>
+    </comp>
+    <comp lib="0" loc="(150,300)" name="Pin">
+      <a name="width" val="32"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="B_Frac"/>
+    </comp>
+    <comp lib="0" loc="(570,570)" name="Pin">
+      <a name="facing" val="north"/>
+      <a name="output" val="true"/>
+      <a name="label" val="A&gt;B"/>
+      <a name="labelloc" val="south"/>
+    </comp>
+    <comp lib="7" loc="(540,310)" name="32Mux2X1"/>
+    <comp lib="0" loc="(670,380)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="12"/>
+      <a name="label" val="ExpDiff"/>
     </comp>
     <comp lib="0" loc="(670,280)" name="Pin">
       <a name="facing" val="west"/>
@@ -296,55 +352,5 @@
       <a name="label" val="Small"/>
     </comp>
     <comp loc="(330,330)" name="ExpDiff12"/>
-    <comp lib="0" loc="(160,440)" name="Pin">
-      <a name="width" val="12"/>
-      <a name="tristate" val="false"/>
-      <a name="label" val="A_Exp"/>
-    </comp>
-    <comp lib="9" loc="(330,190)" name="19to32"/>
-    <comp lib="0" loc="(670,380)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="12"/>
-      <a name="label" val="ExpDiff"/>
-    </comp>
-    <comp lib="0" loc="(420,570)" name="Ground"/>
-    <comp lib="7" loc="(540,500)" name="32Mux2X1"/>
-    <comp lib="0" loc="(160,520)" name="Pin">
-      <a name="width" val="12"/>
-      <a name="tristate" val="false"/>
-      <a name="label" val="B_Exp"/>
-    </comp>
-    <comp lib="0" loc="(110,80)" name="Pin">
-      <a name="tristate" val="false"/>
-      <a name="label" val="SA"/>
-    </comp>
-    <comp lib="0" loc="(680,80)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="label" val="Switch"/>
-    </comp>
-    <comp lib="0" loc="(150,280)" name="Pin">
-      <a name="width" val="19"/>
-      <a name="tristate" val="false"/>
-      <a name="label" val="B_Frac"/>
-    </comp>
-    <comp lib="0" loc="(110,120)" name="Pin">
-      <a name="tristate" val="false"/>
-      <a name="label" val="SB"/>
-    </comp>
-    <comp lib="0" loc="(660,160)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="32"/>
-      <a name="label" val="Large"/>
-    </comp>
-    <comp lib="0" loc="(150,190)" name="Pin">
-      <a name="width" val="19"/>
-      <a name="tristate" val="false"/>
-      <a name="label" val="A_Frac"/>
-    </comp>
-    <comp lib="7" loc="(540,310)" name="32Mux2X1"/>
-    <comp lib="9" loc="(330,280)" name="19to32"/>
   </circuit>
 </project>
