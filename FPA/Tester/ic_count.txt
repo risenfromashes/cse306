@@ -1,0 +1,231 @@
+4Mux2X1:
+74157=1
+
+4Mux4X1:
+4Mux2X1=3
+
+12Mux2X1:
+4Mux2X1=3
+
+32Mux2X1:
+4Mux2X1=8
+
+32Mux4X1:
+32Mux2X1=3
+
+
+
+
+1LeftShift:
+32Mux2X1=1
+
+2LeftShift:
+32Mux2X1=1
+
+4LeftShift:
+32Mux2X1=1
+
+8LeftShift:
+32Mux2X1=1
+
+16LeftShift:
+32Mux2X1=1
+
+ArbLeftShift:
+1LeftShift=1
+2LeftShift=1
+4LeftShift=1
+8LeftShift=1
+16LeftShift=1
+
+
+1RightShift:
+32Mux2X1=1
+
+2RightShift:
+32Mux2X1=1
+
+4RightShift:
+32Mux2X1=1
+
+8RightShift:
+32Mux2X1=1
+
+16RightShift:
+32Mux2X1=1
+
+ArbRightShift:
+1RightShift=1
+2RightShift=1
+4RightShift=1
+8RightShift=1
+16RightShift=1
+
+
+RigthShiftWithEmpty:
+ArbRightShift=1
+32Mux2X1=1
+7432=2
+
+
+12BitMagnitudeComparator:
+7486=1
+7485=3
+7408=1
+
+
+InputHandle:
+ExpDiff12=1
+32Mux2X1=2
+
+ExpDiff12:
+12BitMagnitudeComparator=1
+12Mux2X1=2
+12Sub=1
+
+
+4Adder:
+7483=1
+
+32Adder:
+4Adder=8
+
+12Adder:
+4Adder=3
+
+1Compl4:
+7486=1
+
+1Compl12:
+1Compl4=3
+
+1Compl32:
+1Compl4=8
+
+2Compl12:
+1Compl12=1
+12Adder=1
+
+2Compl32:
+1Compl32=1
+32Adder=1
+
+12Sub:
+1Compl12=1
+12Adder=1
+
+
+
+
+8x3_Priority_Encoder:
+7432=2
+74147=1
+
+ShiftFinder:
+8x3_Priority_Encoder = 4
+4x2_Priority_Encoder = 1
+4Mux4X1 = 1
+7404 = 1
+7432 = 1
+
+4x2_Priority_Encoder:
+8x3_Priority_Encoder=1
+
+
+Rounding:
+7432 = 3
+7408 = 1
+
+InputProcess:
+12Is0 = 1
+32Mux2X1 = 1
+7408 = 1
+
+12Is0:
+7432 = 3
+
+InputCheck:
+12Is0 = 2
+7408 = 1
+
+4OR:
+7432 = 1
+
+32OR:
+4OR = 8
+
+0handler:
+7408 = 1
+12Is0 = 1
+
+32Is0:
+4Is0 = 8
+
+4Is0:
+7432 = 1
+
+
+AddedInp:
+InputProcess = 2
+InputHandle = 1
+RigthShiftWithEmpty = 1
+2Compl32 = 2
+32Mux2X1 = 2
+32Adder = 1
+32Is0 = 1
+7486 = 1
+74157 = 1
+7408 = 1
+
+
+Normalization:
+1LeftShift = 1
+ShiftFinder = 1
+ArbLeftShift = 1
+32Mux2X1 = 2
+2Compl12 = 1
+7486 = 1
+7404 = 1
+7432 = 1
+7408 = 1
+12Is0 = 1
+12Mux2X1 = 1
+
+
+RoundingMachine:
+Rounding = 1
+32Adder = 1
+
+FPA:
+0handler = 2
+AddedInp = 1
+InputCheck = 1
+Normalization = 1
+12Adder = 1
+RoundingMachine = 1
+7408 = 1
+32Mux2X1 = 1
+32Mux4X1 = 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

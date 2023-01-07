@@ -75,6 +75,12 @@ struct MyFloat {
 
   MyFloat(double f) {
     rounded = false;
+    if (f == 0.0) {
+      sign = 0;
+      exp = 0;
+      mantissa = 0;
+      return;
+    }
     sign = f < 0;
     if (sign) {
       f = -f;
@@ -106,6 +112,9 @@ struct MyFloat {
   }
 
   operator double() {
+    if (is_zero()) {
+      return 0;
+    }
     uint64_t d_exp =
         (exp - BIAS + DOUBLE_BIAS) & ((1ull << DOUBLE_EXP_BITS) - 1);
     uint64_t d_mantissa = (uint64_t)mantissa
@@ -133,13 +142,13 @@ struct MyFloat {
   }
 
   void print_repr() {
-    std::cout << "Rouded: " << rounded << std::endl;
-    std::cout << "Sign: " << sign << std::endl;
-    print_bits_8(sign, 8);
-    std::cout << "Exp: " << (exp - BIAS) << std::endl;
-    print_bits_16(exp, 16);
-    std::cout << "Mantissa: ";
-    print_bits_32(mantissa, 32);
+    // std::cout << "Rouded: " << rounded << std::endl;
+    // std::cout << "Sign: " << sign << std::endl;
+    // print_bits_8(sign, 8);
+    // std::cout << "Exp: " << (exp - BIAS) << std::endl;
+    // print_bits_16(exp, 16);
+    // std::cout << "Mantissa: ";
+    // print_bits_32(mantissa, 32);
     std::vector<bool> v;
     v.push_back(sign);
     vec_bits_16(exp, EXP_BITS, v);
@@ -155,7 +164,20 @@ struct MyFloat {
     std::cout << std::endl;
   }
 
+  bool is_zero() {
+    bool e = (exp & ((1ull << EXP_BITS) - 1)) == 0;
+    bool m = (mantissa & ((1ull << MANTISSA_BITS) - 1)) == 0;
+    return e && m;
+  }
+
   friend MyFloat operator+(MyFloat a, MyFloat b) {
+    if (a.is_zero()) {
+      return b;
+    }
+    if (b.is_zero()) {
+      return a;
+    }
+
     MyFloat ret;
     uint8_t s1s2 = a.sign ^ b.sign;
     uint8_t bs = b.sign;
@@ -164,6 +186,7 @@ struct MyFloat {
       sw = 1u;
       std::swap(a, b);
     }
+
     uint16_t expdiff = a.exp - b.exp;
 
     uint32_t m_a = 1u << 31;
@@ -171,7 +194,11 @@ struct MyFloat {
 
     m_a |= (a.mantissa << EXP_BITS);
     m_b |= (b.mantissa << EXP_BITS);
-    m_b >>= expdiff;
+    if (expdiff >= 32) {
+      return a;
+    } else {
+      m_b = m_b >> expdiff;
+    }
 
     ret.exp = a.exp;
 
@@ -243,54 +270,64 @@ double gen_random() {
 
 double error(double a, double b) { return std::fabs(a - b) / a; }
 
+void gen_test(double da, double db) {
+  // 0.00001 + -9.99999
+  MyFloat a = MyFloat(da);
+  MyFloat b = MyFloat(db);
+  double dr = double(a) + double(b);
+  MyFloat r = a + b;
+
+  double err1 = error(da, a);
+  double err2 = error(db, b);
+  double err3 = error(dr, r);
+
+  // std::cout << "err1: " << err1 << std::endl;
+  // std::cout << "err2: " << err2 << std::endl;
+  std::cout << "err3: " << err3 << std::endl;
+
+  std::cout << "da: " << std::endl;
+  std::cout << da << std::endl;
+  std::cout << "a :" << std::endl;
+  a.print_repr();
+  std::cout << "a (double): " << std::endl;
+  std::cout << (double)a << std::endl;
+  std::cout << std::endl;
+
+  std::cout << "db: " << std::endl;
+  std::cout << db << std::endl;
+  std::cout << "b :" << std::endl;
+  b.print_repr();
+  std::cout << "b (double): " << std::endl;
+  std::cout << (double)b << std::endl;
+  std::cout << std::endl;
+
+  std::cout << "dr: " << std::endl;
+  std::cout << dr << std::endl;
+  std::cout << "r :" << std::endl;
+  r.print_repr();
+  std::cout << "r (double): " << std::endl;
+  std::cout << (double)r << std::endl;
+  std::cout << std::endl;
+}
+
 int main() {
+  std::cout.precision(std::numeric_limits<double>::max_digits10);
+  double da;
+  double db;
   for (;;) {
-    // 0.00001 + -9.99999
-    double da = gen_random();
-    double db = gen_random();
-    MyFloat a = MyFloat(da);
-    MyFloat b = MyFloat(db);
-    double dr = double(a) + double(b);
-    MyFloat r = a + b;
-
-    double err1 = error(da, a);
-    double err2 = error(db, b);
-    double err3 = error(dr, r);
-
-    if (std::isnan(r) || std::isnan(dr) || std::isinf(dr) || std::isinf(r)) {
-      continue;
+    char ch;
+    std::cout << "Enter 0 for test input" << std::endl
+              << "Enter 1 for random input" << std::endl;
+    std::cin >> ch;
+    if (ch == '0') {
+      std::cout << "Enter a (as double): ";
+      std::cin >> da;
+      std::cout << "Enter b (as double): ";
+      std::cin >> db;
+    } else {
+      da = gen_random();
+      db = gen_random();
     }
-
-    if (err1 < 1e-6 && err2 < 1e-6 && err3 < 1e-6) {
-      continue;
-    }
-
-    std::cout << "err1: " << err1 << std::endl;
-    std::cout << "err2: " << err2 << std::endl;
-    std::cout << "err3: " << err3 << std::endl;
-
-    std::cout << "da: " << std::endl;
-    std::cout << da << std::endl;
-    std::cout << "a :" << std::endl;
-    a.print_repr();
-    std::cout << "a (double): " << std::endl;
-    std::cout << (double)a << std::endl;
-    std::cout << std::endl;
-
-    std::cout << "db: " << std::endl;
-    std::cout << db << std::endl;
-    std::cout << "b :" << std::endl;
-    b.print_repr();
-    std::cout << "b (double): " << std::endl;
-    std::cout << (double)b << std::endl;
-    std::cout << std::endl;
-
-    std::cout << "dr: " << std::endl;
-    std::cout << dr << std::endl;
-    std::cout << "r :" << std::endl;
-    r.print_repr();
-    std::cout << "r (double): " << std::endl;
-    std::cout << (double)r << std::endl;
-    std::cout << std::endl;
+    gen_test(da, db);
   }
 }

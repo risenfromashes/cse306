@@ -296,145 +296,81 @@
     <wire from="(660,680)" to="(660,720)"/>
     <wire from="(630,680)" to="(660,680)"/>
     <wire from="(520,340)" to="(520,720)"/>
-    <comp lib="11" loc="(920,200)" name="2Compl32"/>
-    <comp lib="0" loc="(240,700)" name="Ground"/>
-    <comp lib="0" loc="(130,220)" name="Pin">
-      <a name="width" val="32"/>
-      <a name="tristate" val="false"/>
-      <a name="label" val="A"/>
-    </comp>
-    <comp lib="10" loc="(430,500)" name="7408">
-      <a name="facing" val="north"/>
-    </comp>
-    <comp lib="0" loc="(1180,520)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="label" val="SAxorSB"/>
-    </comp>
-    <comp lib="8" loc="(380,240)" name="InputHandle"/>
-    <comp lib="0" loc="(660,720)" name="Pin">
-      <a name="facing" val="north"/>
-      <a name="output" val="true"/>
-      <a name="label" val="Flag"/>
-      <a name="labelloc" val="south"/>
-    </comp>
-    <comp lib="12" loc="(1050,190)" name="32Mux2X1"/>
-    <comp lib="0" loc="(1170,90)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="label" val="SB"/>
-    </comp>
-    <comp lib="0" loc="(670,10)" name="Power"/>
-    <comp lib="13" loc="(630,680)" name="32Is0"/>
-    <comp lib="11" loc="(810,230)" name="32Adder"/>
     <comp lib="0" loc="(1140,190)" name="Pin">
       <a name="facing" val="west"/>
       <a name="output" val="true"/>
       <a name="width" val="32"/>
       <a name="label" val="to_normalize"/>
     </comp>
-    <comp lib="0" loc="(130,340)" name="Pin">
-      <a name="width" val="32"/>
-      <a name="tristate" val="false"/>
-      <a name="label" val="B"/>
-    </comp>
-    <comp lib="10" loc="(1080,360)" name="74157"/>
-    <comp lib="0" loc="(1170,40)" name="Pin">
+    <comp lib="0" loc="(670,10)" name="Power"/>
+    <comp lib="11" loc="(810,230)" name="32Adder"/>
+    <comp lib="13" loc="(180,330)" name="InputProcess"/>
+    <comp lib="0" loc="(1180,520)" name="Pin">
       <a name="facing" val="west"/>
       <a name="output" val="true"/>
-      <a name="label" val="SA"/>
+      <a name="label" val="SAxorSB"/>
     </comp>
     <comp lib="10" loc="(340,440)" name="7486"/>
-    <comp lib="12" loc="(720,270)" name="32Mux2X1"/>
-    <comp lib="13" loc="(180,210)" name="InputProcess"/>
-    <comp lib="11" loc="(620,330)" name="2Compl32"/>
-    <comp lib="0" loc="(520,720)" name="Pin">
+    <comp lib="0" loc="(660,720)" name="Pin">
       <a name="facing" val="north"/>
       <a name="output" val="true"/>
-      <a name="label" val="A&gt;B"/>
+      <a name="label" val="Flag"/>
       <a name="labelloc" val="south"/>
     </comp>
-    <comp lib="9" loc="(490,270)" name="RigthShiftWithEmpty"/>
+    <comp lib="0" loc="(1170,90)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="label" val="SB"/>
+    </comp>
     <comp lib="0" loc="(1190,320)" name="Pin">
       <a name="facing" val="west"/>
       <a name="output" val="true"/>
       <a name="label" val="Sign_bit"/>
     </comp>
-    <comp lib="13" loc="(180,330)" name="InputProcess"/>
+    <comp lib="13" loc="(630,680)" name="32Is0"/>
+    <comp lib="10" loc="(1080,360)" name="74157"/>
+    <comp lib="11" loc="(920,200)" name="2Compl32"/>
+    <comp lib="12" loc="(720,270)" name="32Mux2X1"/>
+    <comp lib="0" loc="(240,700)" name="Ground"/>
+    <comp lib="10" loc="(430,500)" name="7408">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(130,340)" name="Pin">
+      <a name="width" val="32"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="B"/>
+    </comp>
+    <comp lib="9" loc="(490,270)" name="RigthShiftWithEmpty"/>
+    <comp lib="0" loc="(1190,270)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="label" val="Cout"/>
+    </comp>
+    <comp lib="0" loc="(1170,40)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="label" val="SA"/>
+    </comp>
+    <comp lib="8" loc="(380,240)" name="InputHandle"/>
+    <comp lib="0" loc="(130,220)" name="Pin">
+      <a name="width" val="32"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="A"/>
+    </comp>
     <comp lib="0" loc="(1140,440)" name="Pin">
       <a name="facing" val="west"/>
       <a name="output" val="true"/>
       <a name="width" val="12"/>
       <a name="label" val="Exp_Large"/>
     </comp>
-    <comp lib="0" loc="(1190,270)" name="Pin">
-      <a name="facing" val="west"/>
+    <comp lib="0" loc="(520,720)" name="Pin">
+      <a name="facing" val="north"/>
       <a name="output" val="true"/>
-      <a name="label" val="Cout"/>
+      <a name="label" val="A&gt;B"/>
+      <a name="labelloc" val="south"/>
     </comp>
-  </circuit>
-  <circuit name="test">
-    <a name="circuit" val="test"/>
-    <a name="clabel" val=""/>
-    <a name="clabelup" val="east"/>
-    <a name="clabelfont" val="Dialog plain 12"/>
-    <a name="clabelcolor" val="#000000"/>
-    <wire from="(510,370)" to="(510,420)"/>
-    <wire from="(430,370)" to="(510,370)"/>
-    <wire from="(480,430)" to="(480,480)"/>
-    <wire from="(430,480)" to="(480,480)"/>
-    <wire from="(480,430)" to="(530,430)"/>
-    <wire from="(510,420)" to="(530,420)"/>
-    <wire from="(620,350)" to="(620,410)"/>
-    <wire from="(560,410)" to="(620,410)"/>
-    <wire from="(620,350)" to="(740,350)"/>
-    <wire from="(560,420)" to="(760,420)"/>
-    <wire from="(560,430)" to="(730,430)"/>
-    <wire from="(560,440)" to="(690,440)"/>
-    <wire from="(670,450)" to="(670,570)"/>
-    <wire from="(560,450)" to="(670,450)"/>
-    <wire from="(730,470)" to="(760,470)"/>
-    <wire from="(730,430)" to="(730,470)"/>
-    <wire from="(690,520)" to="(740,520)"/>
-    <wire from="(690,440)" to="(690,520)"/>
-    <wire from="(670,570)" to="(760,570)"/>
-    <comp lib="0" loc="(430,370)" name="Pin">
-      <a name="width" val="32"/>
-      <a name="tristate" val="false"/>
-      <a name="label" val="A"/>
-    </comp>
-    <comp lib="0" loc="(740,520)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="12"/>
-      <a name="label" val="Exp_Large"/>
-    </comp>
-    <comp lib="0" loc="(760,420)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="label" val="Cout"/>
-    </comp>
-    <comp loc="(560,410)" name="AddedInp"/>
-    <comp lib="0" loc="(740,350)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="32"/>
-      <a name="label" val="t0_normalize"/>
-    </comp>
-    <comp lib="0" loc="(430,480)" name="Pin">
-      <a name="width" val="32"/>
-      <a name="tristate" val="false"/>
-      <a name="label" val="B"/>
-    </comp>
-    <comp lib="0" loc="(760,570)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="label" val="S1xorS2"/>
-    </comp>
-    <comp lib="0" loc="(760,470)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="label" val="Sign_bit"/>
-    </comp>
+    <comp lib="13" loc="(180,210)" name="InputProcess"/>
+    <comp lib="12" loc="(1050,190)" name="32Mux2X1"/>
+    <comp lib="11" loc="(620,330)" name="2Compl32"/>
   </circuit>
 </project>
