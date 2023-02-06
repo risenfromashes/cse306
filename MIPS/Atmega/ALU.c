@@ -37,8 +37,8 @@ int main(void)
     while (1) 
     {
 		opCode = (PIND) & 7;
-		inp1 = (PINA) & 15;
-		inp2 = ((PINA) & (15 << 4)) >> 4;
+		inp1 = (PINB) & 15;
+		inp2 = ((PINB) & (15 << 4)) >> 4;
 		PORTA = performOp(inp1,inp2, opCode);
     }
 	
