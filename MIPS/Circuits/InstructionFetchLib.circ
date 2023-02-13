@@ -77,8 +77,8 @@
       <a name="valign" val="base"/>
     </tool>
   </lib>
-  <lib desc="file#/home/shattik/Documents/cse306/MIPS/Circuits/PCUpdate.circ" name="8"/>
-  <lib desc="file#/home/shattik/Documents/cse306/MIPS/Circuits/MuxLib.circ" name="9"/>
+  <lib desc="file#PCUpdate.circ" name="8"/>
+  <lib desc="file#MuxLib.circ" name="9"/>
   <main name="InstructionFetch"/>
   <options>
     <a name="gateUndefined" val="ignore"/>
@@ -115,9 +115,38 @@
   <circuit name="InstructionFetch">
     <a name="circuit" val="InstructionFetch"/>
     <a name="clabel" val="IF"/>
-    <a name="clabelup" val="east"/>
+    <a name="clabelup" val="north"/>
     <a name="clabelfont" val="Dialog plain 12"/>
     <a name="clabelcolor" val="#000000"/>
+    <appear>
+      <rect fill="#ffffff" height="180" rx="5" ry="5" stroke="#000000" stroke-width="2" width="130" x="50" y="60"/>
+      <path d="M110,60 Q114,69 118,60" fill="none" stroke="#808080" stroke-width="2"/>
+      <text font-family="Dialog" font-size="6" text-anchor="start" x="60" y="86">prevseg</text>
+      <text font-family="Dialog" font-size="6" text-anchor="start" x="60" y="106">offset</text>
+      <text font-family="Dialog" font-size="6" text-anchor="start" x="60" y="126">segpreset</text>
+      <text font-family="Dialog" font-size="6" text-anchor="start" x="60" y="146">segclr</text>
+      <text font-family="Dialog" font-size="6" text-anchor="start" x="60" y="166">pcpreset</text>
+      <text font-family="Dialog" font-size="6" text-anchor="start" x="60" y="186">pcclr</text>
+      <text font-family="Dialog" font-size="6" text-anchor="start" x="60" y="206">ujmpaddr</text>
+      <text font-family="Dialog" font-size="6" text-anchor="middle" x="72" y="226">clk</text>
+      <text font-family="Dialog" font-size="6" text-anchor="middle" x="112" y="226">ujmp</text>
+      <text font-family="Dialog" font-size="6" text-anchor="middle" x="152" y="226">Noop</text>
+      <text font-family="Dialog" font-size="6" text-anchor="middle" x="156" y="146">instruction</text>
+      <text font-family="Dialog" font-size="6" text-anchor="start" x="140" y="96">segment</text>
+      <circ-port height="8" pin="310,290" width="8" x="46" y="76"/>
+      <circ-port height="8" pin="310,350" width="8" x="46" y="96"/>
+      <circ-port height="8" pin="270,400" width="8" x="46" y="116"/>
+      <circ-port height="8" pin="270,470" width="8" x="46" y="136"/>
+      <circ-port height="8" pin="270,530" width="8" x="46" y="156"/>
+      <circ-port height="8" pin="270,600" width="8" x="46" y="176"/>
+      <circ-port height="8" pin="310,660" width="8" x="46" y="196"/>
+      <circ-port height="10" pin="1520,330" width="10" x="175" y="135"/>
+      <circ-port height="8" pin="670,620" width="8" x="106" y="236"/>
+      <circ-port height="8" pin="1420,600" width="8" x="146" y="236"/>
+      <circ-port height="8" pin="590,620" width="8" x="76" y="236"/>
+      <circ-port height="10" pin="1530,200" width="10" x="175" y="85"/>
+      <circ-anchor facing="east" height="6" width="6" x="177" y="137"/>
+    </appear>
     <wire from="(310,290)" to="(490,290)"/>
     <wire from="(490,340)" to="(580,340)"/>
     <wire from="(490,290)" to="(490,340)"/>
@@ -202,12 +231,37 @@
     <wire from="(1210,320)" to="(1260,320)"/>
     <wire from="(1210,300)" to="(1210,320)"/>
     <wire from="(1210,320)" to="(1210,420)"/>
-    <comp lib="0" loc="(1260,390)" name="Splitter">
-      <a name="facing" val="west"/>
+    <wire from="(710,200)" to="(710,360)"/>
+    <wire from="(710,200)" to="(1530,200)"/>
+    <comp lib="0" loc="(1420,600)" name="Pin">
+      <a name="facing" val="north"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="NoOp"/>
+      <a name="labelloc" val="south"/>
+    </comp>
+    <comp lib="5" loc="(1060,370)" name="ROM">
+      <a name="addrWidth" val="12"/>
+      <a name="dataWidth" val="16"/>
+      <a name="contents">addr/data: 12 16
+0
+</a>
+    </comp>
+    <comp lib="0" loc="(1380,410)" name="Splitter">
       <a name="fanout" val="3"/>
       <a name="bit1" val="0"/>
       <a name="bit2" val="1"/>
       <a name="bit3" val="2"/>
+    </comp>
+    <comp lib="0" loc="(670,620)" name="Pin">
+      <a name="facing" val="north"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="UJump"/>
+      <a name="labelloc" val="south"/>
+    </comp>
+    <comp lib="0" loc="(310,290)" name="Pin">
+      <a name="width" val="4"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="PrevSeg"/>
     </comp>
     <comp lib="0" loc="(1120,370)" name="Splitter">
       <a name="fanout" val="3"/>
@@ -228,53 +282,54 @@
       <a name="bit14" val="2"/>
       <a name="bit15" val="2"/>
     </comp>
-    <comp lib="0" loc="(1380,410)" name="Splitter">
-      <a name="fanout" val="3"/>
-      <a name="bit1" val="0"/>
-      <a name="bit2" val="1"/>
-      <a name="bit3" val="2"/>
-    </comp>
-    <comp lib="9" loc="(1360,270)" name="4Mux2X1"/>
-    <comp lib="5" loc="(1060,370)" name="ROM">
-      <a name="addrWidth" val="12"/>
-      <a name="dataWidth" val="16"/>
-      <a name="contents">addr/data: 12 16
-0
-</a>
-    </comp>
-    <comp lib="0" loc="(1220,150)" name="Power"/>
-    <comp lib="0" loc="(590,620)" name="Clock">
-      <a name="facing" val="north"/>
-      <a name="label" val="CLK"/>
-      <a name="labelloc" val="south"/>
-    </comp>
-    <comp lib="0" loc="(1250,470)" name="Splitter">
-      <a name="facing" val="west"/>
-    </comp>
     <comp lib="0" loc="(310,350)" name="Pin">
       <a name="width" val="4"/>
       <a name="tristate" val="false"/>
       <a name="label" val="Offset"/>
     </comp>
-    <comp lib="0" loc="(670,620)" name="Pin">
-      <a name="facing" val="north"/>
-      <a name="tristate" val="false"/>
-      <a name="label" val="UJump"/>
-      <a name="labelloc" val="south"/>
+    <comp lib="0" loc="(970,640)" name="Ground"/>
+    <comp lib="0" loc="(1220,150)" name="Power"/>
+    <comp lib="0" loc="(1250,470)" name="Splitter">
+      <a name="facing" val="west"/>
     </comp>
-    <comp lib="0" loc="(270,470)" name="Pin">
-      <a name="tristate" val="false"/>
-      <a name="label" val="SegClr"/>
+    <comp lib="9" loc="(1360,410)" name="4Mux2X1"/>
+    <comp lib="0" loc="(800,370)" name="Splitter">
+      <a name="facing" val="west"/>
+      <a name="fanout" val="2"/>
+      <a name="incoming" val="12"/>
+      <a name="bit1" val="0"/>
+      <a name="bit2" val="0"/>
+      <a name="bit3" val="0"/>
+      <a name="bit4" val="0"/>
+      <a name="bit5" val="0"/>
+      <a name="bit6" val="0"/>
+      <a name="bit7" val="0"/>
+      <a name="bit8" val="1"/>
+      <a name="bit9" val="1"/>
+      <a name="bit10" val="1"/>
+      <a name="bit11" val="1"/>
     </comp>
     <comp lib="0" loc="(270,530)" name="Pin">
       <a name="tristate" val="false"/>
       <a name="label" val="PCPreset"/>
     </comp>
-    <comp lib="0" loc="(1520,330)" name="Pin">
+    <comp lib="0" loc="(270,600)" name="Pin">
+      <a name="tristate" val="false"/>
+      <a name="label" val="PCClear"/>
+    </comp>
+    <comp lib="8" loc="(610,360)" name="PCUpdate"/>
+    <comp lib="0" loc="(1530,200)" name="Pin">
       <a name="facing" val="west"/>
       <a name="output" val="true"/>
-      <a name="width" val="16"/>
-      <a name="label" val="Instruction"/>
+      <a name="width" val="4"/>
+      <a name="label" val="segment"/>
+    </comp>
+    <comp lib="0" loc="(1260,390)" name="Splitter">
+      <a name="facing" val="west"/>
+      <a name="fanout" val="3"/>
+      <a name="bit1" val="0"/>
+      <a name="bit2" val="1"/>
+      <a name="bit3" val="2"/>
     </comp>
     <comp lib="0" loc="(1470,330)" name="Splitter">
       <a name="facing" val="west"/>
@@ -296,51 +351,34 @@
       <a name="bit14" val="2"/>
       <a name="bit15" val="2"/>
     </comp>
-    <comp lib="8" loc="(610,360)" name="PCUpdate"/>
     <comp lib="0" loc="(310,660)" name="Pin">
       <a name="width" val="8"/>
       <a name="tristate" val="false"/>
       <a name="label" val="UJumpAddress"/>
     </comp>
+    <comp lib="9" loc="(1360,270)" name="4Mux2X1"/>
+    <comp lib="0" loc="(1280,280)" name="Splitter">
+      <a name="facing" val="west"/>
+    </comp>
+    <comp lib="0" loc="(1520,330)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="16"/>
+      <a name="label" val="Instruction"/>
+    </comp>
     <comp lib="0" loc="(270,400)" name="Pin">
       <a name="tristate" val="false"/>
       <a name="label" val="SegPreset"/>
     </comp>
-    <comp lib="0" loc="(800,370)" name="Splitter">
-      <a name="facing" val="west"/>
-      <a name="fanout" val="2"/>
-      <a name="incoming" val="12"/>
-      <a name="bit1" val="0"/>
-      <a name="bit2" val="0"/>
-      <a name="bit3" val="0"/>
-      <a name="bit4" val="0"/>
-      <a name="bit5" val="0"/>
-      <a name="bit6" val="0"/>
-      <a name="bit7" val="0"/>
-      <a name="bit8" val="1"/>
-      <a name="bit9" val="1"/>
-      <a name="bit10" val="1"/>
-      <a name="bit11" val="1"/>
-    </comp>
-    <comp lib="0" loc="(1420,600)" name="Pin">
+    <comp lib="0" loc="(590,620)" name="Pin">
       <a name="facing" val="north"/>
       <a name="tristate" val="false"/>
-      <a name="label" val="NoOp"/>
+      <a name="label" val="clk"/>
       <a name="labelloc" val="south"/>
     </comp>
-    <comp lib="0" loc="(310,290)" name="Pin">
-      <a name="width" val="4"/>
+    <comp lib="0" loc="(270,470)" name="Pin">
       <a name="tristate" val="false"/>
-      <a name="label" val="PrevSeg"/>
-    </comp>
-    <comp lib="9" loc="(1360,410)" name="4Mux2X1"/>
-    <comp lib="0" loc="(970,640)" name="Ground"/>
-    <comp lib="0" loc="(1280,280)" name="Splitter">
-      <a name="facing" val="west"/>
-    </comp>
-    <comp lib="0" loc="(270,600)" name="Pin">
-      <a name="tristate" val="false"/>
-      <a name="label" val="PCClear"/>
+      <a name="label" val="SegClr"/>
     </comp>
   </circuit>
 </project>

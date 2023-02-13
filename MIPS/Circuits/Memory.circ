@@ -78,7 +78,7 @@
     </tool>
   </lib>
   <lib desc="file#MuxLib.circ" name="8"/>
-  <main name="main"/>
+  <main name="mem"/>
   <options>
     <a name="gateUndefined" val="ignore"/>
     <a name="simlimit" val="1000"/>
@@ -111,12 +111,35 @@
     <tool lib="1" name="AND Gate"/>
     <tool lib="1" name="OR Gate"/>
   </toolbar>
-  <circuit name="main">
-    <a name="circuit" val="main"/>
-    <a name="clabel" val=""/>
-    <a name="clabelup" val="east"/>
+  <circuit name="mem">
+    <a name="circuit" val="mem"/>
+    <a name="clabel" val="Mem"/>
+    <a name="clabelup" val="north"/>
     <a name="clabelfont" val="Dialog plain 12"/>
     <a name="clabelcolor" val="#000000"/>
+    <appear>
+      <rect fill="#ffffff" height="160" rx="5" ry="5" stroke="#000000" stroke-width="2" width="150" x="50" y="50"/>
+      <path d="M61,52 Q65,61 69,52" fill="none" stroke="#808080" stroke-width="2"/>
+      <text font-family="Dialog" font-size="6" text-anchor="start" x="60" y="86">addr</text>
+      <text font-family="Dialog" font-size="6" text-anchor="start" x="60" y="116">writedata</text>
+      <text font-family="Dialog" font-size="6" text-anchor="start" x="60" y="146">memwrite</text>
+      <text font-family="Dialog" font-size="6" text-anchor="start" x="60" y="166">memread</text>
+      <text font-family="Dialog" font-size="6" text-anchor="start" x="80" y="196">enable</text>
+      <text font-family="Dialog" font-size="6" text-anchor="start" x="130" y="196">clk</text>
+      <text font-family="Dialog" font-size="6" text-anchor="start" x="160" y="196">clear</text>
+      <text font-family="Dialog" font-size="6" text-anchor="start" x="160" y="146">readdata</text>
+      <text font-family="Dialog" font-size="6" text-anchor="start" x="170" y="106">value</text>
+      <circ-port height="8" pin="350,370" width="8" x="46" y="76"/>
+      <circ-port height="8" pin="350,420" width="8" x="46" y="106"/>
+      <circ-port height="8" pin="660,520" width="8" x="46" y="136"/>
+      <circ-port height="8" pin="660,550" width="8" x="86" y="206"/>
+      <circ-port height="10" pin="1280,250" width="10" x="195" y="95"/>
+      <circ-port height="10" pin="1010,390" width="10" x="195" y="135"/>
+      <circ-port height="8" pin="880,550" width="8" x="166" y="206"/>
+      <circ-port height="8" pin="1200,360" width="8" x="46" y="156"/>
+      <circ-port height="8" pin="790,540" width="8" x="126" y="206"/>
+      <circ-anchor facing="east" height="6" width="6" x="197" y="97"/>
+    </appear>
     <wire from="(350,420)" to="(550,420)"/>
     <wire from="(550,410)" to="(550,420)"/>
     <wire from="(550,410)" to="(720,410)"/>
@@ -142,28 +165,33 @@
     <wire from="(1000,110)" to="(1090,110)"/>
     <wire from="(1090,110)" to="(1090,240)"/>
     <wire from="(1220,250)" to="(1280,250)"/>
+    <comp lib="0" loc="(1280,250)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="8"/>
+      <a name="label" val="val"/>
+    </comp>
+    <comp lib="0" loc="(350,420)" name="Pin">
+      <a name="width" val="8"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="WriteData (Data1)"/>
+    </comp>
     <comp lib="0" loc="(660,550)" name="Pin">
       <a name="tristate" val="false"/>
       <a name="label" val="!RAMEnable"/>
       <a name="labelloc" val="south"/>
     </comp>
-    <comp lib="0" loc="(1010,390)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="8"/>
-      <a name="label" val="ReadData"/>
-    </comp>
-    <comp lib="0" loc="(1000,110)" name="Ground"/>
     <comp lib="0" loc="(1200,360)" name="Pin">
       <a name="facing" val="north"/>
       <a name="tristate" val="false"/>
       <a name="label" val="memRead"/>
       <a name="labelloc" val="south"/>
     </comp>
-    <comp lib="0" loc="(350,370)" name="Pin">
-      <a name="width" val="8"/>
+    <comp lib="0" loc="(790,540)" name="Pin">
+      <a name="facing" val="north"/>
       <a name="tristate" val="false"/>
-      <a name="label" val="Address (res)"/>
+      <a name="label" val="clk"/>
+      <a name="labelloc" val="south"/>
     </comp>
     <comp lib="0" loc="(880,550)" name="Pin">
       <a name="facing" val="west"/>
@@ -171,28 +199,26 @@
       <a name="label" val="Clear"/>
       <a name="labelloc" val="south"/>
     </comp>
-    <comp lib="0" loc="(350,420)" name="Pin">
+    <comp lib="0" loc="(350,370)" name="Pin">
       <a name="width" val="8"/>
       <a name="tristate" val="false"/>
-      <a name="label" val="WriteData (Data1)"/>
+      <a name="label" val="Address (res)"/>
     </comp>
-    <comp lib="8" loc="(1220,250)" name="8Mux2X1"/>
+    <comp lib="0" loc="(1000,110)" name="Ground"/>
     <comp lib="5" loc="(860,390)" name="RAM">
       <a name="bus" val="separate"/>
       <a name="simpleMode" val="false"/>
-    </comp>
-    <comp lib="0" loc="(1280,250)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="8"/>
-      <a name="label" val="val"/>
-    </comp>
-    <comp lib="0" loc="(790,540)" name="Clock">
-      <a name="facing" val="north"/>
     </comp>
     <comp lib="0" loc="(660,520)" name="Pin">
       <a name="tristate" val="false"/>
       <a name="label" val="memWrite"/>
     </comp>
+    <comp lib="0" loc="(1010,390)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="8"/>
+      <a name="label" val="ReadData"/>
+    </comp>
+    <comp lib="8" loc="(1220,250)" name="8Mux2X1"/>
   </circuit>
 </project>
