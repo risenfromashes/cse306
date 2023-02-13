@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project source="2.16.1.4.jar" version="1.0">
-This file is intended to be loaded by Logisim http://logisim.altervista.org
-<lib desc="#Wiring" name="0">
+  This file is intended to be loaded by Logisim http://logisim.altervista.org
+
+  <lib desc="#Wiring" name="0">
     <tool name="Splitter">
       <a name="facing" val="west"/>
       <a name="fanout" val="3"/>
@@ -141,21 +142,18 @@ This file is intended to be loaded by Logisim http://logisim.altervista.org
     <wire from="(1000,110)" to="(1090,110)"/>
     <wire from="(1090,110)" to="(1090,240)"/>
     <wire from="(1220,250)" to="(1280,250)"/>
-    <comp lib="0" loc="(1000,110)" name="Pin">
+    <comp lib="0" loc="(660,550)" name="Pin">
       <a name="tristate" val="false"/>
+      <a name="label" val="!RAMEnable"/>
+      <a name="labelloc" val="south"/>
     </comp>
-    <comp lib="8" loc="(1220,250)" name="8Mux2X1"/>
-    <comp lib="0" loc="(790,540)" name="Clock">
-      <a name="facing" val="north"/>
+    <comp lib="0" loc="(1010,390)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="8"/>
+      <a name="label" val="ReadData"/>
     </comp>
-    <comp lib="0" loc="(660,520)" name="Pin">
-      <a name="tristate" val="false"/>
-      <a name="label" val="memWrite"/>
-    </comp>
-    <comp lib="5" loc="(860,390)" name="RAM">
-      <a name="bus" val="separate"/>
-      <a name="simpleMode" val="false"/>
-    </comp>
+    <comp lib="0" loc="(1000,110)" name="Ground"/>
     <comp lib="0" loc="(1200,360)" name="Pin">
       <a name="facing" val="north"/>
       <a name="tristate" val="false"/>
@@ -166,12 +164,6 @@ This file is intended to be loaded by Logisim http://logisim.altervista.org
       <a name="width" val="8"/>
       <a name="tristate" val="false"/>
       <a name="label" val="Address (res)"/>
-    </comp>
-    <comp lib="0" loc="(1280,250)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="8"/>
-      <a name="label" val="val"/>
     </comp>
     <comp lib="0" loc="(880,550)" name="Pin">
       <a name="facing" val="west"/>
@@ -184,16 +176,23 @@ This file is intended to be loaded by Logisim http://logisim.altervista.org
       <a name="tristate" val="false"/>
       <a name="label" val="WriteData (Data1)"/>
     </comp>
-    <comp lib="0" loc="(660,550)" name="Pin">
-      <a name="tristate" val="false"/>
-      <a name="label" val="!RAMEnable"/>
-      <a name="labelloc" val="south"/>
+    <comp lib="8" loc="(1220,250)" name="8Mux2X1"/>
+    <comp lib="5" loc="(860,390)" name="RAM">
+      <a name="bus" val="separate"/>
+      <a name="simpleMode" val="false"/>
     </comp>
-    <comp lib="0" loc="(1010,390)" name="Pin">
+    <comp lib="0" loc="(1280,250)" name="Pin">
       <a name="facing" val="west"/>
       <a name="output" val="true"/>
       <a name="width" val="8"/>
-      <a name="label" val="ReadData"/>
+      <a name="label" val="val"/>
+    </comp>
+    <comp lib="0" loc="(790,540)" name="Clock">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="0" loc="(660,520)" name="Pin">
+      <a name="tristate" val="false"/>
+      <a name="label" val="memWrite"/>
     </comp>
   </circuit>
 </project>
