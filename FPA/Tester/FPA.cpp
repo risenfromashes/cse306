@@ -285,27 +285,27 @@ void gen_test(double da, double db) {
   // std::cout << "err2: " << err2 << std::endl;
   std::cout << "err3: " << err3 << std::endl;
 
-  std::cout << "da: " << std::endl;
+  std::cout << "a (double): " << std::endl;
   std::cout << da << std::endl;
   std::cout << "a :" << std::endl;
   a.print_repr();
-  std::cout << "a (double): " << std::endl;
+  std::cout << "a (MyFloat): " << std::endl;
   std::cout << (double)a << std::endl;
   std::cout << std::endl;
 
-  std::cout << "db: " << std::endl;
+  std::cout << "b (double): " << std::endl;
   std::cout << db << std::endl;
   std::cout << "b :" << std::endl;
   b.print_repr();
-  std::cout << "b (double): " << std::endl;
+  std::cout << "b (MyFloat): " << std::endl;
   std::cout << (double)b << std::endl;
   std::cout << std::endl;
 
-  std::cout << "dr: " << std::endl;
+  std::cout << "r (double): " << std::endl;
   std::cout << dr << std::endl;
   std::cout << "r :" << std::endl;
   r.print_repr();
-  std::cout << "r (double): " << std::endl;
+  std::cout << "r (MyFloat): " << std::endl;
   std::cout << (double)r << std::endl;
   std::cout << std::endl;
 }
