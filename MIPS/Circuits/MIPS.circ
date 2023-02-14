@@ -297,23 +297,31 @@
     <wire from="(710,270)" to="(710,320)"/>
     <wire from="(720,250)" to="(720,370)"/>
     <wire from="(710,320)" to="(750,320)"/>
-    <comp lib="10" loc="(910,390)" name="ControlDecoder"/>
-    <comp lib="0" loc="(1120,340)" name="Ground"/>
-    <comp lib="10" loc="(1500,390)" name="ControlDecoder"/>
-    <comp lib="14" loc="(1330,200)" name="mem"/>
-    <comp lib="10" loc="(560,460)" name="Control"/>
-    <comp lib="10" loc="(670,380)" name="ControlDecoder"/>
-    <comp lib="11" loc="(1010,220)" name="Execution"/>
-    <comp lib="18" loc="(1420,220)" name="pr"/>
+    <wire from="(80,320)" to="(140,320)"/>
+    <wire from="(80,360)" to="(140,360)"/>
+    <comp lib="0" loc="(80,360)" name="Pin">
+      <a name="tristate" val="false"/>
+    </comp>
     <comp lib="1" loc="(240,460)" name="OR Gate">
       <a name="facing" val="north"/>
     </comp>
     <comp lib="10" loc="(1190,390)" name="ControlDecoder"/>
-    <comp lib="12" loc="(620,130)" name="ID"/>
     <comp lib="18" loc="(820,220)" name="pr"/>
     <comp lib="12" loc="(130,640)" name="clock generator"/>
-    <comp lib="18" loc="(380,210)" name="pr"/>
-    <comp lib="18" loc="(1100,220)" name="pr"/>
+    <comp lib="11" loc="(1010,220)" name="Execution"/>
+    <comp lib="10" loc="(910,390)" name="ControlDecoder"/>
+    <comp lib="12" loc="(620,130)" name="ID"/>
+    <comp lib="0" loc="(1120,340)" name="Ground"/>
+    <comp lib="14" loc="(1330,200)" name="mem"/>
     <comp lib="16" loc="(270,320)" name="InstructionFetch"/>
+    <comp lib="18" loc="(1100,220)" name="pr"/>
+    <comp lib="18" loc="(380,210)" name="pr"/>
+    <comp lib="0" loc="(80,320)" name="Pin">
+      <a name="tristate" val="false"/>
+    </comp>
+    <comp lib="10" loc="(670,380)" name="ControlDecoder"/>
+    <comp lib="10" loc="(1500,390)" name="ControlDecoder"/>
+    <comp lib="10" loc="(560,460)" name="Control"/>
+    <comp lib="18" loc="(1420,220)" name="pr"/>
   </circuit>
 </project>
