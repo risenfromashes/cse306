@@ -1,4 +1,4 @@
-/
+/*
  * ALU.c
  *
  * Created: 2/5/2023 11:16:28 PM
@@ -6,11 +6,11 @@
  */ 
 #define F_CPU 1000000
 
+#include "inttypes.h"
 #include <avr/io.h>
 
-
-char performOp(char a, char b, char aluOp) {
-	char result;
+unsigned char performOp(unsigned char a, unsigned char b, char aluOp) {
+	unsigned char result;
 	switch(aluOp) {
 		case 0: result = a + b; break;
 		case 1: result = a - b; break;
@@ -22,25 +22,28 @@ char performOp(char a, char b, char aluOp) {
 		default:
 		result = -1;
 	}
-	return result & 15;
+	return result;
 }
 
 int main(void)
 {
 	volatile char opCode =0;
-	volatile char inp1;
-	volatile char inp2;
-    /* Replace with your application code */
-	DDRA = 0b00001111;
-	DDRB = 0b00000000;
+	volatile unsigned char  inp1;
+	volatile unsigned char inp2;
+    /* For taking input from C pin */
+	MCUCSR = (1<<JTD);
+	MCUCSR = (1<<JTD);
+	
+	DDRA = 0b00000000;
+	DDRC = 0b00000000;
+	DDRB = 0b11111111;
 	DDRD = 0b00000000;
     while (1) 
     {
 		opCode = (PIND) & 7;
-		inp1 = (PINB) & 15;
-		inp2 = ((PINB) & (15 << 4)) >> 4;
-		PORTA = performOp(inp1,inp2, opCode);
-    }
-	
+		inp1 = PINA;
+		inp2 = PINC;
+		PORTB = performOp(inp1,inp2, opCode);
+    }	
 }
 
