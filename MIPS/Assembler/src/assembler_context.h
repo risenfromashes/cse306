@@ -11,6 +11,7 @@ public:
   void finish_scanner();
 
   void add_token(Token token);
+  void add_instr(Instr instr);
 
   void new_line(int line);
 

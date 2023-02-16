@@ -19,6 +19,13 @@ void AssemblerContext::new_line(int line) {
   case OpCode::SUB:
   case OpCode::ADD:
   case OpCode::OR:
+    assert(current_line_.size() == 4);
+    assert(current_line_[1].is_reg());
+    assert(current_line_[2].is_reg());
+    assert(current_line_[3].is_reg());
+    add_instr(Instr(line, op.opcode(), current_line_[1].reg(),
+                    current_line_[2].reg(), current_line_[3].reg()));
+    return;
     /* s type */
   case OpCode::SRL:
   case OpCode::SLL:
