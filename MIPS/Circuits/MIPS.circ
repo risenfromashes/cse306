@@ -163,9 +163,6 @@
     <wire from="(110,70)" to="(650,70)"/>
     <wire from="(110,280)" to="(140,280)"/>
     <wire from="(110,70)" to="(110,280)"/>
-    <wire from="(250,490)" to="(250,570)"/>
-    <wire from="(230,490)" to="(230,580)"/>
-    <wire from="(200,570)" to="(250,570)"/>
     <wire from="(200,420)" to="(200,570)"/>
     <wire from="(430,360)" to="(430,630)"/>
     <wire from="(420,350)" to="(420,620)"/>
@@ -188,7 +185,6 @@
     <wire from="(140,630)" to="(430,630)"/>
     <wire from="(570,460)" to="(600,460)"/>
     <wire from="(560,350)" to="(680,350)"/>
-    <wire from="(680,540)" to="(680,580)"/>
     <wire from="(700,330)" to="(700,520)"/>
     <wire from="(680,350)" to="(680,540)"/>
     <wire from="(600,330)" to="(700,330)"/>
@@ -197,9 +193,7 @@
     <wire from="(690,340)" to="(690,500)"/>
     <wire from="(580,340)" to="(690,340)"/>
     <wire from="(670,540)" to="(680,540)"/>
-    <wire from="(230,580)" to="(680,580)"/>
     <wire from="(710,400)" to="(710,570)"/>
-    <wire from="(250,570)" to="(710,570)"/>
     <wire from="(670,400)" to="(710,400)"/>
     <wire from="(620,160)" to="(740,160)"/>
     <wire from="(830,190)" to="(880,190)"/>
@@ -299,29 +293,38 @@
     <wire from="(710,320)" to="(750,320)"/>
     <wire from="(80,320)" to="(140,320)"/>
     <wire from="(80,360)" to="(140,360)"/>
+    <wire from="(420,260)" to="(450,260)"/>
+    <wire from="(420,260)" to="(420,320)"/>
+    <wire from="(390,320)" to="(420,320)"/>
+    <wire from="(250,570)" to="(710,570)"/>
+    <wire from="(200,570)" to="(250,570)"/>
+    <wire from="(250,490)" to="(250,570)"/>
+    <wire from="(230,560)" to="(390,560)"/>
+    <wire from="(390,320)" to="(390,560)"/>
+    <wire from="(230,490)" to="(230,560)"/>
     <comp lib="0" loc="(80,360)" name="Pin">
       <a name="tristate" val="false"/>
     </comp>
-    <comp lib="1" loc="(240,460)" name="OR Gate">
-      <a name="facing" val="north"/>
-    </comp>
-    <comp lib="10" loc="(1190,390)" name="ControlDecoder"/>
-    <comp lib="18" loc="(820,220)" name="pr"/>
-    <comp lib="12" loc="(130,640)" name="clock generator"/>
-    <comp lib="11" loc="(1010,220)" name="Execution"/>
-    <comp lib="10" loc="(910,390)" name="ControlDecoder"/>
-    <comp lib="12" loc="(620,130)" name="ID"/>
-    <comp lib="0" loc="(1120,340)" name="Ground"/>
     <comp lib="14" loc="(1330,200)" name="mem"/>
-    <comp lib="16" loc="(270,320)" name="InstructionFetch"/>
-    <comp lib="18" loc="(1100,220)" name="pr"/>
+    <comp lib="10" loc="(910,390)" name="ControlDecoder"/>
     <comp lib="18" loc="(380,210)" name="pr"/>
     <comp lib="0" loc="(80,320)" name="Pin">
       <a name="tristate" val="false"/>
     </comp>
-    <comp lib="10" loc="(670,380)" name="ControlDecoder"/>
-    <comp lib="10" loc="(1500,390)" name="ControlDecoder"/>
+    <comp lib="10" loc="(1190,390)" name="ControlDecoder"/>
+    <comp lib="12" loc="(130,640)" name="clock generator"/>
+    <comp lib="11" loc="(1010,220)" name="Execution"/>
     <comp lib="10" loc="(560,460)" name="Control"/>
+    <comp lib="10" loc="(1500,390)" name="ControlDecoder"/>
+    <comp lib="18" loc="(1100,220)" name="pr"/>
+    <comp lib="12" loc="(620,130)" name="ID"/>
     <comp lib="18" loc="(1420,220)" name="pr"/>
+    <comp lib="0" loc="(1120,340)" name="Ground"/>
+    <comp lib="16" loc="(270,320)" name="InstructionFetch"/>
+    <comp lib="10" loc="(670,380)" name="ControlDecoder"/>
+    <comp lib="1" loc="(240,460)" name="OR Gate">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="18" loc="(820,220)" name="pr"/>
   </circuit>
 </project>
