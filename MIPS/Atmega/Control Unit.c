@@ -115,7 +115,7 @@ inline void set_all(unsigned short all) {
 int main(void) {
   UART_init();
   DDRA = 0x00;
-  DDRC = 0x00;  // for 16 bit address input, MSB in C
+  DDRC = 0x00;  // for 16 bit instruction input, MSB in C7
   DDRB = 0xFF;
   DDRD = 0xFF;
   MCUCSR = (1 << JTD);
