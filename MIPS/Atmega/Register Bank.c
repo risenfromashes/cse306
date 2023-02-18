@@ -5,6 +5,8 @@
  * Author : Team GGWP
  */
 
+#define F_CPU 1000000
+
 #include <avr/io.h>
 
 unsigned char arr[16];
@@ -17,9 +19,9 @@ void UART_init(void) {
   UCSRB = 0b00010000;
   // Asynchronous mode, no parity, 1 stop bit, 8 data bits
   UCSRC = 0b10000110;
-  // Baud rate 1200bps, assuming 1MHz clock
-  UBRRL = 0x33;
-  UBRRH = 0x00;
+  // Baud rate 9600bps, assuming 1MHz clock
+  UBRRL = 12;
+  UBRRH = 0;
 }
 
 unsigned char UART_receive(void) {

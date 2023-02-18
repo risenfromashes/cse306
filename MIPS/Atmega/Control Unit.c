@@ -5,7 +5,11 @@
  * Author : Team GGWP
  */
 
+#define F_CPU 1000000
+
+#include <avr/interrupt.h>
 #include <avr/io.h>
+#include <util/delay.h>
 
 unsigned short instruction;  // 16 bit
 unsigned char opcode;        // 4 bit
@@ -18,9 +22,9 @@ void UART_init(void) {
   UCSRB = 0b00001000;
   // Asynchronous mode, no parity, 1 stop bit, 8 data bits
   UCSRC = 0b10000110;
-  // Baud rate 1200bps, assuming 1MHz clock
-  UBRRL = 0x33;
-  UBRRH = 0x00;
+  // Baud rate 9600bps, assuming 1MHz clock
+  UBRRL = 12;
+  UBRRH = 0;
 }
 
 void UART_send(unsigned char data) {
@@ -28,6 +32,15 @@ void UART_send(unsigned char data) {
   while ((UCSRA & (1 << UDRE)) == 0x00)
     ;
   UDR = data;  // Write character to UDR for transmission
+}
+
+ISR(INT1_vect) {
+  cli();
+  unsigned char reg1 = (instruction >> 4) & 15;
+  unsigned char reg2 = (instruction >> 8) & 15;
+  unsigned char concatenated = (reg1 << 4) | reg2;
+  UART_send(concatenated);
+  sei();
 }
 
 inline void set_cjmp(char cjmp) {
@@ -100,12 +113,17 @@ inline void set_all(unsigned short all) {
 }
 
 int main(void) {
+  UART_init();
   DDRA = 0x00;
   DDRC = 0x00;  // for 16 bit address input, MSB in C
   DDRB = 0xFF;
   DDRD = 0xFF;
   MCUCSR = (1 << JTD);
   MCUCSR = (1 << JTD);  // for enabling port C for I/O
+  GICR = (1 << INT1);
+  MCUCR = MCUCR | (1 << ISC11);
+  MCUCR = MCUCR | (1 << ISC10);
+  sei();
 
   while (1) {
     instruction = PINA;
@@ -114,7 +132,7 @@ int main(void) {
     opcode = PINA & 15;
     msb_2 = PINC & (3 << 6);
 
-    unsigned short all;
+    unsigned short all = 0b00000001000;  // initialize with no-op one
 
     if (opcode == 0) {
       // NOR
@@ -175,10 +193,5 @@ int main(void) {
     }
 
     set_all(all);
-
-    unsigned char reg1 = (instruction >> 4) & 15;
-    unsigned char reg2 = (instruction >> 8) & 15;
-    unsigned char concatenated = (reg1 << 4) | reg2;
-    UART_send(concatenated);
   }
 }
