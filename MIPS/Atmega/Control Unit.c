@@ -115,7 +115,7 @@ inline void set_all(unsigned short all) {
 int main(void) {
   UART_init();
   DDRA = 0x00;
-  DDRC = 0x00;  // for 16 bit instruction input, MSB in C7
+  DDRC = 0x00;  // for 16 bit instruction input, MSB in C0, LSB in A0
   DDRB = 0xFF;
   DDRD = 0xFF;
   MCUCSR = (1 << JTD);
@@ -127,7 +127,15 @@ int main(void) {
 
   while (1) {
     instruction = PINA;
-    instruction |= (PINC << 8);
+    // now need to reverse PINC and then put it in the upper bits of instruction
+    unsigned char temp1, temp2 = 0;
+    temp1 = PINC;
+    for (int i = 0; i < 8; i++) {
+      if (temp1 & (1 << i)) {
+        temp2 |= (1 << (7 - i));
+      }
+    }
+    instruction |= (temp2 << 8);
 
     opcode = PINA & 15;
     msb_2 = PINC & (3 << 6);
