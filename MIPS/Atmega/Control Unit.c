@@ -68,9 +68,9 @@ inline void set_jmp(char jmp) {
 }
 
 inline void set_regwrite(char regwrite) {
-  // D1
-  PORTD &= ~(1 << 1);
-  PORTD |= (regwrite << 1);
+  // B5
+  PORTB &= ~(1 << 5);
+  PORTB |= (regwrite << 5);
 }
 
 inline void set_memwrite(char memwrite) {
@@ -138,7 +138,7 @@ int main(void) {
     instruction |= (temp2 << 8);
 
     opcode = PINA & 15;
-    msb_2 = PINC & (3 << 6);
+	msb_2 = (instruction & (3LL << 14)) >> 14;
 
     unsigned short all = 0b00000001000;  // initialize with no-op one
 
