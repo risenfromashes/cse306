@@ -30,14 +30,14 @@ unsigned short read_address() {
   //   address |= (PIND & (1 << 2)) << 4;
   //   address |= (PIND & (1 << 1)) << 5;
   //   address |= (PIND & (1 << 0)) << 6;
+  for (int i = 0; i <= 6; i++) {
+    address |= ((PIND & (1 << (6 - i))) << i);
+  }
   //   address |= (PINB & (1 << 7)) << 7;
   //   address |= (PINB & (1 << 6)) << 8;
   //   address |= (PINB & (1 << 5)) << 9;
   //   address |= (PINB & (1 << 4)) << 10;
   //   address |= (PINB & (1 << 3)) << 11;
-  for (int i = 0; i <= 6; i++) {
-    address |= ((PIND & (1 << (6 - i))) << i);
-  }
   for (int i = 0; i <= 4; i++) {
     address |= (PINB & (1 << (7 - i))) << (7 + i);
   }
@@ -47,11 +47,15 @@ unsigned short read_address() {
 int main(void) {
   unsigned short uiAddress;
   unsigned short instruction;
+
+  // input address is of 12 bits
+  // its LSB will be in D6, MSB in B3
   DDRB = 0x00;
-  DDRD = 0x00;  // initializing portB and portD for address input, MSB in B3,
-                // LSB in D6
+  DDRD = 0x00;
+  // output will be an instruction of 16 bits
+  // its MSB will be in A0, LSB in C0
   DDRC = 0xFF;
-  DDRA = 0xFF;  // MSB in C0, LSB in A0
+  DDRA = 0xFF;
 
   while (1) {
     uiAddress = read_address();
@@ -64,7 +68,7 @@ int main(void) {
         reversed_temp |= (1 << (7 - i));
       }
     }
-    PORTA = instruction;
-    PORTC = reversed_temp;
+    PORTC = instruction;
+    PORTA = reversed_temp;
   }
 }
