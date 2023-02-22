@@ -43,6 +43,12 @@ ISR(INT1_vect) {
   sei();
 }
 
+inline void set_jmp(char jmp) {
+  // D7
+  PORTD &= ~(1 << 7);
+  PORTD |= (jmp << 7);
+}
+
 inline void set_cjmp(char cjmp) {
   // D6
   PORTD &= ~(1 << 6);
@@ -61,17 +67,7 @@ inline void set_aluop(char aluop) {
   PORTD |= (aluop << 2);
 }
 
-inline void set_jmp(char jmp) {
-  // D7
-  PORTD &= ~(1 << 7);
-  PORTD |= (jmp << 7);
-}
-
-inline void set_regwrite(char regwrite) {
-  // B5
-  PORTB &= ~(1 << 5);
-  PORTB |= (regwrite << 5);
-}
+// D1 for Tx
 
 inline void set_memwrite(char memwrite) {
   // D0
@@ -89,6 +85,12 @@ inline void set_regim(char regim) {
   // B6
   PORTB &= ~(1 << 6);
   PORTB |= (regim << 6);
+}
+
+inline void set_regwrite(char regwrite) {
+  // B5
+  PORTB &= ~(1 << 5);
+  PORTB |= (regwrite << 5);
 }
 
 inline void set_destreg(char regdest) {
@@ -138,7 +140,7 @@ int main(void) {
     instruction |= (temp2 << 8);
 
     opcode = PINA & 15;
-	msb_2 = (instruction & (3LL << 14)) >> 14;
+    msb_2 = (instruction & (3LL << 14)) >> 14;
 
     unsigned short all = 0b00000001000;  // initialize with no-op one
 
