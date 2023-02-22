@@ -59,8 +59,8 @@ int main(void) {
 
   while (1) {
     uiAddress = read_address();
-    instruction = 0;
-    instruction |= (arr[uiAddress] << 8);
+    instruction = arr[uiAddress];
+    instruction <<= 8;
     instruction |= arr[uiAddress + 1];
     unsigned short temp =
         (instruction & (255 << 8)) >> 8;  // upper 8 bits of instruction
