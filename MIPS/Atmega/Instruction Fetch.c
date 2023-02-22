@@ -1,22 +1,21 @@
 /*
- * EEPROM.cpp
+ * Instruction Fetch.cpp
  *
  * Created: 2/15/2023 8:14:23 PM
- * Author : User
+ * Author : Team GGWP
  */
 
+#define F_CPU 1000000
 #include <avr/io.h>
 
-unsigned char EEPROM_read(unsigned int uiAddress) {
-  /* Wait for completion of previous write */
-  while (EECR & (1 << EEWE))
-    ;
-  /* Set up address register */
-  EEAR = uiAddress;
-  /* Start eeprom read by writing EERE */
-  EECR |= (1 << EERE);
-  /* Return data from data register */
-  return EEDR;
+unsigned short arr[1 << 12];
+unsigned short temp[] = {0x100F, 0x620B, 0x130B, 0x400F, 0x434F, 0x133B,
+                         0x123D, 0x0025, 0x8005, 0xA419, 0xA218};
+
+void init() {
+  for (int i = 0; i < 11; i++) {
+    arr[i] = temp[i];
+  }
 }
 
 unsigned short read_address() {
@@ -45,6 +44,7 @@ unsigned short read_address() {
 }
 
 int main(void) {
+  init();
   unsigned short uiAddress;
   unsigned short instruction;
 
@@ -59,7 +59,7 @@ int main(void) {
 
   while (1) {
     uiAddress = read_address();
-    instruction = EEPROM_read(uiAddress);
+    instruction = arr[uiAddress];
     unsigned short temp =
         (instruction & (255 << 8)) >> 8;  // upper 8 bits of instruction
     unsigned char reversed_temp = 0;
