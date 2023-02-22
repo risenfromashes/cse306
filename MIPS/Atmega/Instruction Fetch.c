@@ -5,16 +5,17 @@
  * Author : Team GGWP
  */
 
-#define F_CPU 1000000
 #include <avr/io.h>
+#define F_CPU 1000000
 
-unsigned short arr[1 << 12];
+unsigned char arr[1 << 12];
 unsigned short temp[] = {0x100F, 0x620B, 0x130B, 0x400F, 0x434F, 0x133B,
                          0x123D, 0x0025, 0x8005, 0xA419, 0xA218};
 
 void init() {
   for (int i = 0; i < 11; i++) {
-    arr[i] = temp[i];
+    arr[2 * i] = (temp[i] & (255 << 8)) >> 8;  // MSB in arr[i]
+    arr[2 * i + 1] = temp[i] & 255;            // LSB in arr[i+1]
   }
 }
 
@@ -45,8 +46,7 @@ unsigned short read_address() {
 
 int main(void) {
   init();
-  unsigned short uiAddress;
-  unsigned short instruction;
+  unsigned short uiAddress, instruction;
 
   // input address is of 12 bits
   // its LSB will be in D6, MSB in B3
@@ -59,7 +59,9 @@ int main(void) {
 
   while (1) {
     uiAddress = read_address();
-    instruction = arr[uiAddress];
+    instruction = 0;
+    instruction |= (arr[uiAddress] << 8);
+    instruction |= arr[uiAddress + 1];
     unsigned short temp =
         (instruction & (255 << 8)) >> 8;  // upper 8 bits of instruction
     unsigned char reversed_temp = 0;
