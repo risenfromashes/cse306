@@ -40,7 +40,6 @@ unsigned short read_address() {
 int main(void) {
   init();
   unsigned volatile short uiAddress = 0, instruction;
-  arr[1] = 0xFFFF;
 
   // input address is of 12 bits
   // its LSB will be in D6, MSB in B3
