@@ -36,6 +36,7 @@ int main(void) {
   DDRC = 0xFF;  // A and C will be for outputting two 8 bit results
   DDRB = 0x00;  // will receive the data to be written to the specified register
   DDRD = 0b01011110;
+  UART_init();
   // D4 D3 D2 D1 for register index
   // PD0 RXD, TXD won't be enabled
   // D6 for cjmp output
@@ -49,7 +50,7 @@ int main(void) {
   while (1) {
     data = UART_receive();  // both 4-bit addresses will be in concatenated form
                             // here
-    address1 = data & (15 << 4);
+    address1 = (data & (15 << 4)) >> 4;
     address2 = data & 15;
 
     unsigned char write_flag;
