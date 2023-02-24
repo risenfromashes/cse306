@@ -11,20 +11,21 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
-unsigned short instruction;  // 16 bit
+volatile unsigned short instruction;  // 16 bit
 unsigned char opcode;        // 4 bit
 unsigned char msb_2;         // 2 bit, needed for jump flags
 
+
+unsigned short get_instr();
+
 void UART_init(void) {
-  // Normal speed, disable multi-proc
-  UCSRA = 0b00000000;
-  // Enable Tx (not Rx), disable interrupts
-  UCSRB = 0b00001000;
-  // Asynchronous mode, no parity, 1 stop bit, 8 data bits
-  UCSRC = 0b10000110;
-  // Baud rate 9600bps, assuming 1MHz clock
-  UBRRL = 12;
-  UBRRH = 0;
+	UCSRA = 0b00000010;
+	UCSRB = 0b00011000;
+	UCSRC = 0b10000110;
+
+	UBRRH = 0;
+	UBRRL = 12;
+
 }
 
 void UART_send(unsigned char data) {
@@ -34,13 +35,12 @@ void UART_send(unsigned char data) {
   UDR = data;  // Write character to UDR for transmission
 }
 
-ISR(INT1_vect) {
-  cli();
-  unsigned char reg1 = (instruction >> 4) & 15;
-  unsigned char reg2 = (instruction >> 8) & 15;
+ISR(INT2_vect) {
+  instruction = get_instr();
+  unsigned char reg1 = (instruction >> 4) & 0xF;
+  unsigned char reg2 = (instruction >> 8) & 0xF;
   unsigned char concatenated = (reg1 << 4) | reg2;
   UART_send(concatenated);
-  sei();
 }
 
 inline void set_jmp(char jmp) {
@@ -114,32 +114,40 @@ inline void set_all(unsigned short all) {
   set_aluop((all >> 8) & 7);
 }
 
+unsigned short get_instr(){
+	unsigned short new_instr;
+	new_instr = PINA;
+	// now need to reverse PINC and then put it in the upper bits of instruction
+	unsigned char temp1, temp2 = 0;
+	temp1 = PINC;
+	for (int i = 0; i < 8; i++) {
+		if (temp1 & (1 << i)) {
+			temp2 |= (1 << (7 - i));
+		}
+	}
+	new_instr |= (temp2 << 8);
+	
+	return new_instr;
+}
+
 int main(void) {
-  UART_init();
+     
+   UART_init();
+   
   DDRA = 0x00;
   DDRC = 0x00;  // for 16 bit instruction input, MSB in C0, LSB in A0
-  DDRB = 0xFF;
+   DDRB = 0b11111011;
   DDRD = 0xFF;
   MCUCSR = (1 << JTD);
   MCUCSR = (1 << JTD);  // for enabling port C for I/O
-  GICR = (1 << INT1);
-  MCUCR = MCUCR | (1 << ISC11);
-  MCUCR = MCUCR | (1 << ISC10);
+  GICR = (1 << INT2);
+  MCUCSR = (1 << ISC2);
+
+
   sei();
 
   while (1) {
-    instruction = PINA;
-    // now need to reverse PINC and then put it in the upper bits of instruction
-    unsigned char temp1, temp2 = 0;
-    temp1 = PINC;
-    for (int i = 0; i < 8; i++) {
-      if (temp1 & (1 << i)) {
-        temp2 |= (1 << (7 - i));
-      }
-    }
-    instruction |= (temp2 << 8);
-
-    opcode = PINA & 15;
+    opcode = instruction & 0xFF;
     msb_2 = (instruction & (3LL << 14)) >> 14;
 
     unsigned short all = 0b00000001000;  // initialize with no-op one
