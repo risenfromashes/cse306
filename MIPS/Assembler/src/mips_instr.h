@@ -26,10 +26,12 @@ enum class OpCode : uint8_t {
   NOP = 0b100101
 };
 
+std::string_view to_string(OpCode op);
+
 constexpr int N_REGISTER = 16;
 enum class RegIdx : int {
   ZERO,
-  TO,
+  T0,
   T1,
   T2,
   T3,
@@ -46,15 +48,24 @@ enum class RegIdx : int {
   SP
 };
 
-enum class InstrType { R, S, I, J, JR, NOP };
+std::string_view to_string(RegIdx reg);
+
+enum class InstrType { R, I, JC, J, JR, NOP };
 
 class Label {
 public:
-  Label() : id_(last_id_++) {}
+  Label(std::string name) : name_(name), id_(last_id_++) {}
   int id() { return id_; }
 
+  void set_address(int address) { address_ = address; }
+  int address() { return address_; }
+
+  std::string_view name() { return name_; }
+
 private:
+  int address_ = 0;
   int id_;
+  std::string name_;
   static inline int last_id_ = 0;
 };
 
@@ -65,11 +76,14 @@ public:
   Instr(int line);
   Instr(int line, OpCode op, RegIdx rs, RegIdx rt, RegIdx rd);
   Instr(int line, OpCode op, RegIdx rs, RegIdx rt, int imd);
+  Instr(int line, OpCode op, RegIdx rs, RegIdx rt, Label *label);
   Instr(int line, OpCode op, Label *label);
   Instr(int line, OpCode op, RegIdx pc, RegIdx seg);
 
   void insert_noop(int count);
   int no_ops() { return no_ops_; }
+
+  OpCode op() { return op_; }
 
   int line() const { return line_; }
   void set_line(int line) { line_ = line; }
@@ -82,6 +96,9 @@ public:
 
   Instr *next() const { return next_; }
   void set_next(Instr *next) { next_ = next; }
+
+  std::string to_hex_str();
+  std::string to_string();
 
 private:
   int no_ops_ = 0;

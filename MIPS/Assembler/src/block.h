@@ -13,6 +13,8 @@ public:
   Label *label() { return label_; }
 
   void add_instr(Instr instr);
+  std::vector<Instr> &in() { return instrs_; }
+
   std::vector<Instr> out();
 
 private:

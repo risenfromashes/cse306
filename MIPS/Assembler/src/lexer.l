@@ -12,18 +12,23 @@
 
 %}
 
+
+ws [ \t\r,()]+
+
 digit ([-+])?[0-9]+
 
 label .*:
 
 %%
 
+{ws}    {}
+
 "$zero" {
           yyextra->add_token(RegIdx::ZERO);
         }
         
 "$t0"   {
-          yyextra->add_token(RegIdx::TO);
+          yyextra->add_token(RegIdx::T0);
         }
         
 "$t1"   {
@@ -146,9 +151,27 @@ label .*:
           yyextra->add_token(OpCode::ADD);
         }        
 
-digit   {
-          yyextra->add_token(std::atoi(yytext));
+{digit} {
+            int x;
+          yyextra->add_token(x = std::atoi(yytext));
+            std::cerr << x << std::endl;
         }
+
+
+{label}: {
+          yyextra->get_label(std::string_view(yytext, yytext + yyleng - 1));
+         }
+
+{label} {
+          yyextra->add_token(
+              yyextra->get_label(yytext));
+        }
+
+"\n"    {
+          yyextra->new_line(yylineno);
+        }
+
+
         
 %%
 
@@ -157,13 +180,11 @@ void AssemblerContext::init_scanner()
 {
     yylex_init_extra(this, &scanner_);
     yyset_in(in_file_, scanner_);
+    yylex(scanner_);
 }
 
 void AssemblerContext::finish_scanner(){
     auto line = yyget_lineno(scanner_);
-    table_.log_all_scopes();
-    logger_.write("Total lines: {}\n", line);
-    logger_.write("Total errors: {}\n", error_count_);
     yylex_destroy(scanner_);
 }
 
