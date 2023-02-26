@@ -16,8 +16,8 @@
 ws [ \t\r,()]+
 
 digit ([-+])?[0-9]+
-
-label .*:
+alphanum [a-zA-Z0-9]+
+label {alphanum}
 
 %%
 
@@ -159,7 +159,8 @@ label .*:
 
 
 {label}: {
-          yyextra->get_label(std::string_view(yytext, yytext + yyleng - 1));
+              yyextra->add_token(
+                  yyextra->get_label(std::string_view(yytext, yytext + yyleng - 1)));
          }
 
 {label} {

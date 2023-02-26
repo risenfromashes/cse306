@@ -59,6 +59,7 @@ public:
 
   void set_address(int address) { address_ = address; }
   int address() { return address_; }
+  int offset(int pc) { return address_ - (pc + 1); }
 
   std::string_view name() { return name_; }
 
@@ -96,8 +97,10 @@ public:
 
   Instr *next() const { return next_; }
   void set_next(Instr *next) { next_ = next; }
+  Instr *prev() const { return prev_; }
+  void set_prev(Instr *prev) { prev_ = prev; }
 
-  std::string to_hex_str();
+  std::string to_hex_str(bool c_pref = false);
   std::string to_string();
 
 private:
@@ -106,7 +109,7 @@ private:
   std::optional<int> imd_;
   std::optional<Label *> label_;
 
-  Instr *next_ = nullptr;
+  Instr *next_ = nullptr, *prev_ = nullptr;
 
   OpCode op_;
   InstrType type_;

@@ -85,41 +85,41 @@ bool Instr::is_jump() {
 std::string_view to_string(OpCode op) {
   switch (op) {
   case OpCode::NOR:
-    return "NOR";
+    return "nor";
   case OpCode::SRL:
-    return "SRL";
+    return "srl";
   case OpCode::AND:
-    return "AND";
+    return "and";
   case OpCode::SLL:
-    return "SLL";
+    return "sll";
   case OpCode::BNEQ:
-    return "BNEQ";
+    return "bneq";
   case OpCode::J:
-    return "J";
+    return "j";
   case OpCode::ANDI:
-    return "ANDI";
+    return "andi";
   case OpCode::SUBI:
-    return "SUBI";
+    return "subi";
   case OpCode::LW:
-    return "LW";
+    return "lw";
   case OpCode::SW:
-    return "SW";
+    return "sw";
   case OpCode::SUB:
-    return "SUB";
+    return "sub";
   case OpCode::ADDI:
-    return "ADDI";
+    return "addi";
   case OpCode::OR:
-    return "OR";
+    return "or";
   case OpCode::BEQ:
-    return "BEQ";
+    return "beq";
   case OpCode::ORI:
-    return "ORI";
+    return "ori";
   case OpCode::ADD:
-    return "ADD";
+    return "add";
   case OpCode::JR:
-    return "JR";
+    return "jr";
   case OpCode::NOP:
-    return "NOP";
+    return "nop";
   }
   return "";
 }
@@ -178,7 +178,7 @@ template <int N> void print_hex(std::string &vec, int64_t v) {
 // op jl j addr
 // addr   jh jl op
 
-std::string Instr::to_hex_str() {
+std::string Instr::to_hex_str(bool c_pref) {
   uint8_t op = (uint8_t)op_;
   std::string line;
   print_hex<1>(line, op);
@@ -197,7 +197,7 @@ std::string Instr::to_hex_str() {
   case JC:
     print_hex<1>(line, (uint8_t)*r1_);
     print_hex<1>(line, (uint8_t)*r2_);
-    print_hex<1>(line, (uint8_t)(*label_)->address());
+    print_hex<1>(line, (uint8_t)(*label_)->offset(line_));
     break;
   case J:
     print_hex<2>(line, (uint8_t)(*label_)->address());
@@ -216,11 +216,23 @@ std::string Instr::to_hex_str() {
   }
   std::reverse(line.begin(), line.end());
   std::string ret;
-  for (int i = 0; i < line.size(); i++) {
-    if (i && i % 2 == 0) {
-      ret += " ";
+  if (!c_pref) {
+    for (int i = 0; i < line.size(); i++) {
+      if (i && i % 2 == 0) {
+        ret += " ";
+      }
+      ret += line[i];
     }
-    ret += line[i];
+  } else {
+    for (int i = 0; i < line.size(); i++) {
+      if (i % 4 == 0) {
+        ret += "0x";
+      }
+      ret += line[i];
+      if (i % 4 == 3) {
+        ret += ", ";
+      }
+    }
   }
   return ret;
 }
@@ -228,27 +240,28 @@ std::string Instr::to_hex_str() {
 std::string Instr::to_string() {
   std::string line;
   line += ::to_string(op_);
+  line += " ";
   using enum InstrType;
   switch (type_) {
   case R:
     line += ::to_string(*r1_);
-    line += ",";
+    line += ", ";
     line += ::to_string(*r2_);
-    line += ",";
+    line += ", ";
     line += ::to_string(*r3_);
     break;
   case I:
     line += ::to_string(*r1_);
-    line += ",";
+    line += ", ";
     line += ::to_string(*r2_);
-    line += ",";
+    line += ", ";
     line += std::to_string(*imd_);
     break;
   case JC:
     line += ::to_string(*r1_);
-    line += ",";
+    line += ", ";
     line += ::to_string(*r2_);
-    line += ",";
+    line += ", ";
     line += (*label_)->name();
     break;
   case J:
@@ -256,13 +269,12 @@ std::string Instr::to_string() {
     break;
   case JR:
     line += ::to_string(*r1_);
-    line += ",";
+    line += ", ";
     line += ::to_string(*r2_);
     break;
   case NOP:
     break;
   }
-  // line += "(" + std::to_string(line_) + ")";
-  // line += "[" + std::to_string(no_ops_) + "]";
+  // line += "(" + std::to_string(no_ops_) + ")";
   return line;
 }

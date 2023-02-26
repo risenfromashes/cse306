@@ -115,6 +115,7 @@ void AssemblerContext::add_instr(Instr instr) {
   bool jump = instr.is_jump();
   current_block_->add_instr(std::move(instr));
   if (jump) {
+    blocks_.push_back(std::move(current_block_));
     current_block_ = nullptr;
   }
 }
@@ -126,21 +127,11 @@ void AssemblerContext::scan() {
   if (current_block_) {
     blocks_.push_back(std::move(current_block_));
   }
+
+  process();
 }
 
-void AssemblerContext::gen_asm(const char *path) {
-  std::ofstream out(path);
-  for (auto &block : blocks_) {
-    auto instrs = block->out();
-    for (auto &instr : instrs) {
-      out << instr.to_string() << std::endl;
-    }
-  }
-}
-
-void AssemblerContext::gen_hex(const char *path) {
-  std::ofstream out(path);
-  std::vector<Instr> instrs;
+void AssemblerContext::process() {
   int pc = 0;
   for (auto &block : blocks_) {
     if (block->label()) {
@@ -148,12 +139,33 @@ void AssemblerContext::gen_hex(const char *path) {
     }
     auto out = block->out();
     for (auto &inst : out) {
-      instrs.push_back(std::move(inst));
+      out_lines_.push_back(std::move(inst));
+      out_lines_.back().set_line(pc);
       pc++;
     }
   }
+}
 
-  for (auto &instr : instrs) {
+void AssemblerContext::gen_asm(const char *path) {
+  std::ofstream out(path);
+  for (auto &instr : out_lines_) {
+    out << instr.to_string() << std::endl;
+  }
+}
+
+void AssemblerContext::gen_hex(const char *path) {
+  std::ofstream out(path);
+  for (auto &instr : out_lines_) {
     out << instr.to_hex_str() << std::endl;
   }
+}
+
+void AssemblerContext::gen_c_array(const char *path) {
+  std::ofstream out(path);
+  out << "unsigned short asm_code[] = "
+      << "[";
+  for (auto &instr : out_lines_) {
+    out << instr.to_hex_str(true);
+  }
+  out << "];";
 }

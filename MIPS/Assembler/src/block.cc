@@ -21,9 +21,8 @@ void Block::find_nexts() {
       std::cerr << "src1: " << to_string(*instr.src_reg1()) << std::endl;
       if (l[src]) {
         l[src]->set_next(&instr);
-        if (instr.line() - l[src]->line() <= 2) {
-          instr.insert_noop(3 - instr.line() + l[src]->line());
-        }
+        instr.set_prev(l[src]);
+        instr.insert_noop(2);
       }
       r[src] = &instr;
     }
@@ -33,9 +32,8 @@ void Block::find_nexts() {
       std::cerr << "src2: " << to_string(*instr.src_reg2()) << std::endl;
       if (l[src]) {
         l[src]->set_next(&instr);
-        if (instr.line() - l[src]->line() <= 2) {
-          instr.insert_noop(3 - instr.line() + l[src]->line());
-        }
+        instr.set_prev(l[src]);
+        instr.insert_noop(2);
       }
       r[src] = &instr;
     }
@@ -89,52 +87,78 @@ std::vector<Instr> Block::out() {
       unexec;
 
   std::vector<Instr> out;
+  int pc = 0;
+  out.push_back(Instr::noop());
   for (auto &instr : instrs_) {
-    int cur = instr.line();
-    /* print necessary noops first */
-    int no_ops = instr.no_ops();
-    while (no_ops && !unexec.empty()) {
-      auto top = unexec.top();
-      unexec.pop();
-      std::cerr << "1. Popped: " << top->to_string() << " " << top << std::endl;
-      out.push_back(*top);
-      no_ops--;
-    }
-    for (int i = 0; i < no_ops; i++) {
-      out.push_back(Instr::noop());
-    }
+    int cur = pc;
     /* pop unexec instructions with expired next lines */
     while (!unexec.empty() && unexec.top()->next() &&
-           unexec.top()->next()->line() <= cur) {
+           unexec.top()->next()->line() <=
+               (unexec.top()->line() + instr.no_ops())) {
       auto top = unexec.top();
       unexec.pop();
-      std::cerr << "2. Popped: " << top->to_string() << " " << top << std::endl;
       out.push_back(*top);
+      out.back().set_line(pc);
+      pc++;
+    }
+    /* print necessary noops first */
+    if (instr.prev()) {
+      int no_ops =
+          std::max(std::min(instr.no_ops(),
+                            instr.no_ops() - cur + instr.prev()->line() + 1),
+                   0);
+      std::cout << "nops: " << no_ops << std::endl;
+      while (no_ops && !unexec.empty()) {
+        auto top = unexec.top();
+        unexec.pop();
+        out.push_back(*top);
+        out.back().set_line(pc);
+        pc++;
+        no_ops--;
+      }
+      for (int i = 0; i < no_ops; i++) {
+        out.push_back(Instr::noop());
+        out.back().set_line(pc);
+        pc++;
+      }
     }
     /* now handle current instruction */
-    if (!instr.next()) {
+    if (instr.is_jump()) {
+
+      /* can't reorder jump instructions */
+      while (!unexec.empty()) {
+        auto top = unexec.top();
+        unexec.pop();
+        out.push_back(*top);
+        out.back().set_line(pc);
+        pc++;
+      }
+      out.push_back(instr);
+      out.back().set_line(pc);
+      pc++;
+
+    } else if (!instr.next()) {
       /* no dependent instruction, can put anywhere */
-      std::cerr << "1. Pushing: " << instr.to_string() << " " << &instr
-                << std::endl;
       unexec.push(&instr);
     } else {
       /* no room for reordering */
       if ((instr.next()->line() - instr.line()) <= (instr.no_ops() + 1)) {
         /* so output immediately */
         out.push_back(instr);
+        out.back().set_line(pc);
+        pc++;
       } else {
-        /* this can be put instead of a later no-op */
-        std::cerr << "2. Pushing: " << instr.to_string() << " " << &instr
-                  << std::endl;
         unexec.push(&instr);
       }
     }
   }
   /* print remaining unexecuted instructions */
   while (!unexec.empty()) {
-    auto &top = unexec.top();
+    auto top = unexec.top();
     unexec.pop();
     out.push_back(*top);
+    out.back().set_line(pc);
+    pc++;
   }
   return out;
 }

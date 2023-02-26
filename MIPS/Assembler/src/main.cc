@@ -23,4 +23,5 @@ int main(int argc, char **argv) {
   assembler.scan();
   assembler.gen_asm("out.asm");
   assembler.gen_hex("out.hex");
+  assembler.gen_c_array("out.c");
 }
